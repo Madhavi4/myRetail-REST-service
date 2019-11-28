@@ -1,0 +1,20 @@
+# See http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+spring:
+  thymeleaf.cache: false
+  main.show-banner: false
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/myRetailDB
+
+redsky:
+  product:
+    url: https://redsky.target.com/v2/pdp/tcin/{product_id}?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics
+
+logging:
+  level:
+    root: INFO
+
+
+#http://localhost:8080/swagger-ui.html
+
+#https://redsky.target.com/v2/pdp/tcin/76758245?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics
