@@ -20,9 +20,12 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductPrice {
+    /**
+     * The product id unique key
+     */
     @Id
     @JsonIgnore
-    private Integer id;
+    private Long id;
     @NotNull(message = "currency_value is mandatory")
     private Double value;
     @NotEmpty(message = "currency_code is mandatory")
