@@ -20,7 +20,7 @@ public class ProductDetails {
      * The type Id
      */
     @NotNull(message = "product Id is null")
-    private Integer id;
+    private Long id;
     /**
      * The type name
      */

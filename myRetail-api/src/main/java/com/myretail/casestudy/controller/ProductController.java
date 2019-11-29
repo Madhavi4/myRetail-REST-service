@@ -24,11 +24,14 @@ import javax.validation.Valid;
 @RequestMapping("/v1")
 @Tag(name = "product", description = "The Product API")
 public class ProductController {
-
+    /**
+     * The Product Service
+     */
     @Autowired
     private ProductService productService;
 
     /**
+     * Method to get Get Product details by id
      * @param id productId
      * @return product details
      */
@@ -39,7 +42,7 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Product not found")})
     @GetMapping(path = "/products/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ProductResponse> retrieveProductDetails(@Parameter(description = "Id of the Product to be retrieved. Cannot be empty.",
-            required = true) @PathVariable Integer id) {
+            required = true) @PathVariable Long id) {
 
         ProductResponse productResponse = productService.getProductDetails(id);
 
@@ -47,8 +50,9 @@ public class ProductController {
     }
 
     /**
+     * Method to update Product details by id
      * @param id      productId
-     * @param request product details
+     * @param request product details request
      * @return updated product details
      */
     @Operation(summary = "Update product price by id")
@@ -59,7 +63,7 @@ public class ProductController {
             @ApiResponse(responseCode = "405", description = "Validation exception")})
     @PutMapping(path = "/products/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ProductResponse> updateProductDetailsById(@Parameter(description = "Id of the Product to be updated. Cannot be empty.",
-            required = true) @PathVariable Integer id, @Valid @RequestBody ProductResponse request) {
+            required = true) @PathVariable Long id, @Valid @RequestBody ProductResponse request) {
 
         return new ResponseEntity<>(productService.updateProductDetails(request), HttpStatus.CREATED);
     }

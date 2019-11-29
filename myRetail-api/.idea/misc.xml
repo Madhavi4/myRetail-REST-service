@@ -11,7 +11,7 @@
   <component name="ProjectResources">
     <resource url="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" location="$USER_HOME$/Library/Caches/IdeaIC15/extResources/beee9943_web-app_3_0.xsd" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

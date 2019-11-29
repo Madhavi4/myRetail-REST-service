@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
  * The Interface ProductPriceRepository
  */
 @Repository
-public interface ProductPriceRepository extends MongoRepository<ProductPrice, Integer> {
+public interface ProductPriceRepository extends MongoRepository<ProductPrice, Long> {
 
 }

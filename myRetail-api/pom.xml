@@ -19,7 +19,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <start-class>com.myretail.casestudy.MyRetailApplication</start-class>
-        <java.version>1.8</java.version>
+        <java.version>11.0.5</java.version>
         <docker.image.prefix>${user.name}</docker.image.prefix>
     </properties>
 
@@ -62,6 +62,7 @@
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>1.2.12</version>
         </dependency>
+
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>

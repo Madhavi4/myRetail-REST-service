@@ -13,7 +13,7 @@ public class MyRetailApplication {
     }
 
     @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder builder) {
+    public RestTemplate redskyRestTemplate(RestTemplateBuilder builder) {
         return builder.build();
     }
 

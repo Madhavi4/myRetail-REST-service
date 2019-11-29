@@ -13,8 +13,3 @@ redsky:
 logging:
   level:
     root: INFO
-
-
-#http://localhost:8080/swagger-ui.html
-
-#https://redsky.target.com/v2/pdp/tcin/76758245?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics

@@ -6,7 +6,7 @@ This is a Spring Boot RESTful service that can retrieve product and price detail
 
 For building and running the application you need:
 
-- [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+- [JDK 11](https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html)
 - [Maven 3](https://maven.apache.org)
 
 ## Running the application locally
@@ -18,3 +18,7 @@ Alternatively you can use the [Spring Boot Maven plugin](https://docs.spring.io/
 ```shell
 mvn spring-boot:run
 ```
+
+## Swagger Documentation
+
+- [myRetail api documentation](http://localhost:8080/swagger-ui.html)

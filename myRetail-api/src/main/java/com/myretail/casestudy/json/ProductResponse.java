@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * The entity class ProductResponse
@@ -19,7 +20,7 @@ public class ProductResponse {
     /**
      * The type product Id
      */
-    private Integer id;
+    private Long id;
     /**
      * The type product name
      */
@@ -28,5 +29,6 @@ public class ProductResponse {
     /**
      * The type product price
      */
+    @NotNull(message = "Product price is mandatory")
     private ProductPrice current_price;
 }
