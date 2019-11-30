@@ -13,6 +13,7 @@ For building and running the application you need:
 
 ## Running the application locally
 
+Application can be run locally using one of below methods. Once up and running application can be accessed via [swagger api client](http://localhost:8080/swagger-ui.html).
 ### Using Docker:
 
 Prerequisites:
@@ -23,7 +24,8 @@ Please follow steps below:
  - Execute `mvn clean install` from project root directory
  - Extract the file `./target/app.zip`
  - Navigate to extracted app directory
- - Run `docker-compose up`
+ - Run `docker-compose up -d`
+ - To stop `docker-compose down`
 
 ### Using `main` method:
 Prerequisites:
