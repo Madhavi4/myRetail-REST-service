@@ -67,7 +67,7 @@ public class ProductController {
     @PutMapping(path = "/products/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ProductDetails> updateProductDetailsById(@Parameter(description = "Id of the Product to be updated. Cannot be empty.",
             required = true) @PathVariable Long id, @Valid @RequestBody ProductDetails request) throws ProductServiceException {
-
+        //TODO: validate request.id == id
         return new ResponseEntity<>(productService.updateProductDetails(request), HttpStatus.CREATED);
     }
 }

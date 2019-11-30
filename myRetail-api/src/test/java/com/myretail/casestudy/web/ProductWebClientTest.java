@@ -16,9 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.server.ResponseStatusException;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -60,17 +58,5 @@ public class ProductWebClientTest {
 
         ProductApiResponse pd = productWebClient.retrieveProductName(id);
         Assert.assertEquals(pd, productApiResponse);
-    }
-
-    /**
-     * test retrieveProductName for Exception
-     */
-    @Test
-    public void testRetrieveProductNameException() throws ProductServiceException {
-        when(redskyRestTemplate.getForEntity(eq(redskyUrl), eq(String.class))).thenReturn(new ResponseEntity<>(response, HttpStatus.OK));
-
-        thrown.expect(ResponseStatusException.class);
-        thrown.expectMessage(containsString("No results for path:"));
-        productWebClient.retrieveProductName(id);
     }
 }

@@ -19,7 +19,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <start-class>com.myretail.casestudy.MyRetailApplication</start-class>
-        <java.version>11.0.5</java.version>
+        <java.version>11</java.version>
         <docker.image.prefix>${user.name}</docker.image.prefix>
     </properties>
 
@@ -138,12 +138,13 @@
                             <goal>run</goal>
                         </goals>
                         <configuration>
-                            <target>
+                            <tasks>
+                                <copy file="${project.build.directory}/${project.artifactId}.jar"
+                                      tofile="${project.build.directory}/docker/myretail-api/${project.artifactId}.jar"/>
                                 <zip destfile="${project.build.directory}/app.zip">
                                     <zipfileset dir="${project.build.directory}/docker"/>
-                                    <zipfileset dir="${project.build.directory}" includes="${project.artifactId}.jar"/>
                                 </zip>
-                            </target>
+                            </tasks>
                         </configuration>
                     </execution>
                 </executions>
