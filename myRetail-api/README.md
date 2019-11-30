@@ -27,7 +27,7 @@ Please follow steps below:
 
 ### Using `main` method:
 Prerequisites:
-- Make sure mongodb is running locally on port **27017**
+- Make sure mongodb is running locally on port 27017
 - Alternativey you can use any existing mongodb instance by passing `-Dspring.data.mongdb.uri=-Dspring.data.mongodb.uri=mongodb://<hostname:port>/myRetailDB`
 
 Please follow steps below:
@@ -35,20 +35,20 @@ Please follow steps below:
 
 ### Using maven spring-boot plugin:
 Prerequisites:
-- Make sure mongodb is running locally on port **27017**
+- Make sure mongodb is running locally on port 27017
 
 Please follow steps below:
 - Execute `mvn spring-boot:run`
 
 ### Using terminal/shell:
 Prerequisites:
-- Make sure mongodb is running locally on port **27017**
+- Make sure mongodb is running locally on port 27017
 - Alternativey you can use any existing mongodb instance by passing `-Dspring.data.mongdb.uri=-Dspring.data.mongodb.uri=mongodb://<hostname:port>/myRetailDB`
 
 Please follow steps below:
 - Execute `mvn clean install` from project root directory
 - Navigate to build directory `cd ./target/`
-- Execute `java -jar myRetail-api.jar` for local mongo instance running on port **27017**
+- Execute `java -jar myRetail-api.jar` for local mongo instance running on port 27017
 - Execute `java -jar myRetail-api.jar -Dspring.data.mongdb.uri=-Dspring.data.mongodb.uri=mongodb://<hostname:port>/myRetailDB` for remote mongo instance
 
 ## Swagger Documentation
