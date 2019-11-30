@@ -1,22 +1,22 @@
-package com.myretail.casestudy.json;
+package com.myretail.casestudy.model;
 
-import com.myretail.casestudy.model.ProductPrice;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- * The entity class ProductResponse
+ * The entity class ProductDetails
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductResponse {
+public class ProductDetails {
     /**
      * The type product Id
      */
@@ -29,6 +29,7 @@ public class ProductResponse {
     /**
      * The type product price
      */
+    @Valid
     @NotNull(message = "Product price is mandatory")
     private ProductPrice current_price;
 }

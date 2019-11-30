@@ -1,6 +1,7 @@
 package com.myretail.casestudy.web;
 
-import com.myretail.casestudy.json.ProductDetails;
+import com.myretail.casestudy.exceptions.ProductServiceException;
+import com.myretail.casestudy.model.ProductApiResponse;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -10,19 +11,12 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -59,27 +53,20 @@ public class ProductWebClientTest {
      * test retrieveProductName for success
      */
     @Test
-    public void testRetrieveProductName() {
+    public void testRetrieveProductName() throws ProductServiceException {
 
-        try {
-            Path productJsonPath = Paths.get(new ClassPathResource("json/product_13860428.json").getURI());
-            String productJson = new String(Files.readAllBytes(productJsonPath), StandardCharsets.UTF_8);
-            when(redskyRestTemplate.getForEntity(eq(redskyUrl), eq(String.class))).thenReturn(new ResponseEntity<>(productJson, HttpStatus.OK));
+        ProductApiResponse productApiResponse = new ProductApiResponse(id, "The Big Lebowski (Blu-ray)");
+        when(redskyRestTemplate.getForEntity(eq(redskyUrl), eq(ProductApiResponse.class))).thenReturn(new ResponseEntity<>(productApiResponse, HttpStatus.OK));
 
-            ProductDetails pd = productWebClient.retrieveProductName(id);
-            Assert.assertEquals(pd.getId(), id);
-            Assert.assertEquals(pd.getName(), "The Big Lebowski (Blu-ray)");
-
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e);
-        }
+        ProductApiResponse pd = productWebClient.retrieveProductName(id);
+        Assert.assertEquals(pd, productApiResponse);
     }
 
     /**
      * test retrieveProductName for Exception
      */
     @Test
-    public void testRetrieveProductNameException() {
+    public void testRetrieveProductNameException() throws ProductServiceException {
         when(redskyRestTemplate.getForEntity(eq(redskyUrl), eq(String.class))).thenReturn(new ResponseEntity<>(response, HttpStatus.OK));
 
         thrown.expect(ResponseStatusException.class);

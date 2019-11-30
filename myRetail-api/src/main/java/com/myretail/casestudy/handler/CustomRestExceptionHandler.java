@@ -1,7 +1,8 @@
 package com.myretail.casestudy.handler;
 
 import com.myretail.casestudy.exceptions.ProductNotFoundException;
-import com.myretail.casestudy.json.ErrorMessage;
+import com.myretail.casestudy.exceptions.ProductServiceException;
+import com.myretail.casestudy.model.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -34,10 +35,24 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
      * @return error details
      */
     @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<Object> handleResourceNotFoundException(ProductNotFoundException ex) {
+    public ResponseEntity<Object> handleProductNotFoundException(ProductNotFoundException ex) {
         log.error("Exception message: {}", ex.getMessage());
         log.error("Exception cause: {}", ex.getCause());
         return buildResponseEntity(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+
+    /**
+     * Method to handle ProductServiceException
+     *
+     * @param ex ProductServiceException
+     * @return error details
+     */
+    @ExceptionHandler(ProductServiceException.class)
+    public ResponseEntity<Object> handleProductServiceException(ProductServiceException ex) {
+        log.error("Exception message: {}", ex.getMessage());
+        log.error("Exception cause: {}", ex.getCause());
+        return buildResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
     }
 
     /**

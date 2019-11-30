@@ -1,5 +1,7 @@
-package com.myretail.casestudy.json;
+package com.myretail.casestudy.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.myretail.casestudy.json.ProductApiResponseDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,13 +11,14 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- * The pojo ProductDetails
+ * The pojo ProductApiResponse
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDetails {
+@JsonDeserialize(using = ProductApiResponseDeserializer.class)
+public class ProductApiResponse {
     /**
      * The type Id
      */
