@@ -1,7 +1,8 @@
 package com.myretail.casestudy.service;
 
-import com.myretail.casestudy.json.ProductDetails;
-import com.myretail.casestudy.json.ProductResponse;
+import com.myretail.casestudy.exceptions.ProductServiceException;
+import com.myretail.casestudy.model.ProductApiResponse;
+import com.myretail.casestudy.model.ProductDetails;
 import com.myretail.casestudy.model.ProductPrice;
 import com.myretail.casestudy.repository.ProductPriceRepository;
 import com.myretail.casestudy.web.ProductWebClient;
@@ -32,9 +33,9 @@ public class ProductServiceTest {
     @InjectMocks
     private ProductService productService;
 
-    private ProductDetails pd = new ProductDetails();
+    private ProductApiResponse pd = new ProductApiResponse();
     private ProductPrice pp = new ProductPrice();
-    private ProductResponse pr = new ProductResponse();
+    private ProductDetails pr = new ProductDetails();
     private Long id = 13860428L;
     private String name = "Finding Nemo (Blu-Ray + DVD + Digital)";
 
@@ -58,10 +59,10 @@ public class ProductServiceTest {
      * Test for getProductDetails Success
      */
     @Test
-    public void testGetProductDetails() {
+    public void testGetProductDetails() throws ProductServiceException {
         when(productWebClient.retrieveProductName(eq(id))).thenReturn(pd);
         when(productPriceRepo.findById(eq(id))).thenReturn(Optional.of(pp));
-        ProductResponse response = productService.getProductDetails(id);
+        ProductDetails response = productService.getProductDetails(id);
 
         assertEquals(response.getId(), id);
     }
@@ -70,9 +71,9 @@ public class ProductServiceTest {
      * Test for updateProductDetails Success
      */
     @Test
-    public void testUpdateProductDetails() {
+    public void testUpdateProductDetails() throws ProductServiceException {
         when(productWebClient.retrieveProductName(eq(id))).thenReturn(pd);
-        ProductResponse response = productService.updateProductDetails(pr);
+        ProductDetails response = productService.updateProductDetails(pr);
 
         assertThat(response.getId()).isEqualTo(id);
         assertThat(response.getName()).isEqualTo(name);

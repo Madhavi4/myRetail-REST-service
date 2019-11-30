@@ -1,8 +1,9 @@
 package com.myretail.casestudy.service;
 
 import com.myretail.casestudy.exceptions.ProductNotFoundException;
-import com.myretail.casestudy.json.ProductDetails;
-import com.myretail.casestudy.json.ProductResponse;
+import com.myretail.casestudy.exceptions.ProductServiceException;
+import com.myretail.casestudy.model.ProductApiResponse;
+import com.myretail.casestudy.model.ProductDetails;
 import com.myretail.casestudy.model.ProductPrice;
 import com.myretail.casestudy.repository.ProductPriceRepository;
 import com.myretail.casestudy.web.ProductWebClient;
@@ -28,9 +29,9 @@ public class ProductService {
      * @param id productId
      * @return product details
      */
-    public ProductResponse getProductDetails(Long id) {
+    public ProductDetails getProductDetails(Long id) throws ProductServiceException {
         log.info("In getProductDetails()");
-        ProductDetails productDetails = productWebClient.retrieveProductName(id);
+        ProductApiResponse productApiResponse = productWebClient.retrieveProductName(id);
 
         log.info("retrieving product price from db");
         Optional<ProductPrice> optProductPrice = productPriceRepo.findById(id);
@@ -38,16 +39,16 @@ public class ProductService {
             throw new ProductNotFoundException("Product Price not available.");
         }
 
-        return new ProductResponse(id, productDetails.getName(), optProductPrice.get());
+        return new ProductDetails(id, productApiResponse.getName(), optProductPrice.get());
     }
 
     /**
      * @param request product details request
      * @return product details response
      */
-    public ProductResponse updateProductDetails(ProductResponse request) {
+    public ProductDetails updateProductDetails(ProductDetails request) throws ProductServiceException {
         log.info("In updateProductDetails()");
-        ProductDetails pdResponse = productWebClient.retrieveProductName(request.getId());
+        ProductApiResponse pdResponse = productWebClient.retrieveProductName(request.getId());
         request.setName(pdResponse.getName());
 
         log.info("updating product price in db");
@@ -57,5 +58,4 @@ public class ProductService {
 
         return request;
     }
-
 }

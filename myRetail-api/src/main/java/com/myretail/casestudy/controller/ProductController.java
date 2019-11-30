@@ -1,6 +1,7 @@
 package com.myretail.casestudy.controller;
 
-import com.myretail.casestudy.json.ProductResponse;
+import com.myretail.casestudy.exceptions.ProductServiceException;
+import com.myretail.casestudy.model.ProductDetails;
 import com.myretail.casestudy.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -32,25 +33,27 @@ public class ProductController {
 
     /**
      * Method to get Get Product details by id
+     *
      * @param id productId
      * @return product details
      */
     @Operation(summary = "Get Product details by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
-                    content = @Content(schema = @Schema(implementation = ProductResponse.class))),
+                    content = @Content(schema = @Schema(implementation = ProductDetails.class))),
             @ApiResponse(responseCode = "404", description = "Product not found")})
     @GetMapping(path = "/products/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ProductResponse> retrieveProductDetails(@Parameter(description = "Id of the Product to be retrieved. Cannot be empty.",
-            required = true) @PathVariable Long id) {
+    public ResponseEntity<ProductDetails> retrieveProductDetails(@Parameter(description = "Id of the Product to be retrieved. Cannot be empty.",
+            required = true) @PathVariable Long id) throws ProductServiceException {
 
-        ProductResponse productResponse = productService.getProductDetails(id);
+        ProductDetails productDetails = productService.getProductDetails(id);
 
-        return ResponseEntity.ok(productResponse);
+        return ResponseEntity.ok(productDetails);
     }
 
     /**
      * Method to update Product details by id
+     *
      * @param id      productId
      * @param request product details request
      * @return updated product details
@@ -62,8 +65,8 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Product not found"),
             @ApiResponse(responseCode = "405", description = "Validation exception")})
     @PutMapping(path = "/products/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ProductResponse> updateProductDetailsById(@Parameter(description = "Id of the Product to be updated. Cannot be empty.",
-            required = true) @PathVariable Long id, @Valid @RequestBody ProductResponse request) {
+    public ResponseEntity<ProductDetails> updateProductDetailsById(@Parameter(description = "Id of the Product to be updated. Cannot be empty.",
+            required = true) @PathVariable Long id, @Valid @RequestBody ProductDetails request) throws ProductServiceException {
 
         return new ResponseEntity<>(productService.updateProductDetails(request), HttpStatus.CREATED);
     }

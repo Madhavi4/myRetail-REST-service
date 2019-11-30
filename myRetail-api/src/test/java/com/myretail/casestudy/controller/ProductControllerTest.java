@@ -1,45 +1,39 @@
 package com.myretail.casestudy.controller;
 
-import com.myretail.casestudy.exceptions.ProductNotFoundException;
-import com.myretail.casestudy.handler.CustomRestExceptionHandler;
-import com.myretail.casestudy.json.ProductResponse;
+import com.myretail.casestudy.exceptions.ProductServiceException;
+import com.myretail.casestudy.model.ProductDetails;
 import com.myretail.casestudy.service.ProductService;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.http.ResponseEntity;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 /**
  * Test class for ProductController
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
 public class ProductControllerTest {
-    @MockBean
-    private ProductService productService;
+
+    /**
+     * Rule to catch exceptions
+     */
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     @InjectMocks
     private ProductController productController;
-    @InjectMocks
-    private CustomRestExceptionHandler exceptionHandler;
-    @Autowired
-    private WebApplicationContext wac;
-    private MockMvc mockMvc;
+    @Mock
+    private ProductService productService;
 
-    private ProductResponse productResponse = new ProductResponse();
+    private ProductDetails product = new ProductDetails();
     private Long id = 7675824599L;
 
     /**
@@ -48,39 +42,27 @@ public class ProductControllerTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    }
-
-    /**
-     * test retrieveProductDetails throws Exception for missing price
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testRetrieveProductDetailsException() throws Exception {
-        when(productService.getProductDetails(id)).thenThrow(new ProductNotFoundException("Price not available"));
-
-        mockMvc.perform(get("/v1/products/" + id)).andExpect(MockMvcResultMatchers.status().isNotFound());
-    }
-
-    /**
-     * test retrieveProductDetails throws Exception for missing product
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testRetrieveProductDetailsExceptionWithCause() throws Exception {
-        HttpClientErrorException ex = new HttpClientErrorException(HttpStatus.NOT_FOUND);
-        when(productService.getProductDetails(id)).thenThrow(new ProductNotFoundException("Product not found", ex));
-
-        mockMvc.perform(get("/v1/products/" + id)).andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
     /**
      * test retrieveProductDetails for Success
      */
     @Test
-    public void testRetrieveProductDetailsSuccess() {
+    public void testRetrieveProductDetailsSuccess() throws ProductServiceException {
+        ProductDetails expected = Mockito.mock(ProductDetails.class);
+        when(productService.getProductDetails(id)).thenReturn(expected);
+        ResponseEntity<ProductDetails> response = productController.retrieveProductDetails(id);
+        verify(productService, times(1)).getProductDetails(id);
+        Assert.assertEquals(expected, response.getBody());
+        Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+    }
+
+    @Test
+    public void testRetrieveProductDetails_throws_exception() throws ProductServiceException {
+        ProductServiceException expected = new ProductServiceException("test!!!");
+        when(productService.getProductDetails(id)).thenThrow(expected);
+        thrown.expect(ProductServiceException.class);
+        thrown.expectMessage(expected.getMessage());
         productController.retrieveProductDetails(id);
         verify(productService, times(1)).getProductDetails(id);
     }
@@ -89,8 +71,8 @@ public class ProductControllerTest {
      * test updateProductDetails for Success
      */
     @Test
-    public void testUpdateProductDetailsByIdSuccess() {
-        productController.updateProductDetailsById(id, productResponse);
-        verify(productService, times(1)).updateProductDetails(productResponse);
+    public void testUpdateProductDetailsByIdSuccess() throws ProductServiceException {
+        productController.updateProductDetailsById(id, product);
+        verify(productService, times(1)).updateProductDetails(product);
     }
 }

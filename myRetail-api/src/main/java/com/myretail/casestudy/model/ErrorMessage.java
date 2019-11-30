@@ -1,4 +1,4 @@
-package com.myretail.casestudy.json;
+package com.myretail.casestudy.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
