@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.MediaType;
@@ -47,8 +48,9 @@ public class ProductController {
                     content = @Content(schema = @Schema(implementation = ProductDetails.class))),
             @ApiResponse(responseCode = "404", description = "Product not found")})
     @GetMapping(path = "/products/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ProductDetails> retrieveProductDetails(@Parameter(description = "Id of the Product to be retrieved. Cannot be empty.",
-            required = true) @PathVariable Long id) throws ProductServiceException {
+    public ResponseEntity<ProductDetails> retrieveProductDetails(
+            @Parameter(name = "id", description = "Id of the Product to be retrieved. Cannot be empty.",
+                    required = true) @PathVariable Long id) throws ProductServiceException {
 
         return ResponseEntity.ok(productService.getProductDetails(id));
     }
@@ -66,15 +68,16 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "Validation exception"),
             @ApiResponse(responseCode = "404", description = "Product not found")})
     @PutMapping(path = "/products/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ProductDetails> updateProductDetailsById(@Parameter(description = "Id of the Product to be updated. Cannot be empty.",
-            required = true) @PathVariable Long id, @Valid @RequestBody ProductDetails request) throws ProductServiceException {
+    public EntityModel<ProductDetails> updateProductDetailsById(
+            @Parameter(name = "id", description = "Id of the Product to be updated. Cannot be empty.", required = true) @PathVariable Long id,
+            @Valid @RequestBody ProductDetails request) throws ProductServiceException {
 
-        if(!id.equals(request.getId())){
+        if (!id.equals(request.getId())) {
             throw new ProductRequestInvalidException("The id in the path and the payload should match");
         }
         Link link = WebMvcLinkBuilder.linkTo(methodOn(ProductController.class).retrieveProductDetails(id)).withSelfRel();
-        ProductDetails productDetails = productService.updateProductDetails(request).add(link);
+        ProductDetails productDetails = productService.updateProductDetails(request);
 
-        return ResponseEntity.ok(productDetails);
+        return new EntityModel<>(productDetails, link);
     }
 }

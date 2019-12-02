@@ -12,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-<<<<<<< HEAD
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +21,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-=======
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
->>>>>>> 056b1afa69e5410568a28082556108ec1c7cc9bf
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -113,7 +102,7 @@ public class ProductControllerIntegrationTest {
                 .content(productJson);
 
         this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath ("$._links.self.href").value("http://localhost/v1/products/52978799"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$._links.self.href").value("http://localhost/v1/products/52978799"));
     }
 
     /**
@@ -130,7 +119,7 @@ public class ProductControllerIntegrationTest {
                 .content(productJson);
 
         this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath ("$.message").value("The id in the path and the payload should match"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("The id in the path and the payload should match"));
     }
 
     /**
@@ -141,7 +130,7 @@ public class ProductControllerIntegrationTest {
     @Test
     public void testUpdateProductDetailsById_throws_field_validation_exception() throws Exception {
 
-        String[] expected = {"name: Product name is mandatory","current_price: Product price is mandatory"};
+        String[] expected = {"name: Product name is mandatory", "current_price: Product price is mandatory"};
         Arrays.sort(expected);
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.put("/v1/products/" + id)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
@@ -157,7 +146,7 @@ public class ProductControllerIntegrationTest {
         Assert.assertArrayEquals(expected, actual);
     }
 
-    public void setUpProductDetails(){
+    public void setUpProductDetails() {
         productDetails.setId(id);
         productDetails.setName("Apple Watch Series 3 (GPS) 38mm Aluminum Case");
         productDetails.setCurrent_price(new ProductPrice(169.99, "USD"));

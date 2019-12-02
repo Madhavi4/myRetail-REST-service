@@ -12,10 +12,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
 /**
@@ -76,11 +78,11 @@ public class ProductControllerTest {
         productDetails.setCurrent_price(new ProductPrice(10.99, "USD"));
 
         when(productService.updateProductDetails(eq(productDetails))).thenReturn(productDetails);
-        ResponseEntity<ProductDetails> response = productController.updateProductDetailsById(id, productDetails);
+        EntityModel<ProductDetails> response = productController.updateProductDetailsById(id, productDetails);
 
         verify(productService, times(1)).updateProductDetails(productDetails);
 
-        assertEquals(response.getStatusCode(), HttpStatus.OK);
-        assertEquals(response.getBody().getId(), id);
+        assertNotNull(response.getContent());
+        assertEquals(response.getContent().getId(), id);
     }
 }
