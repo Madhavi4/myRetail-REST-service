@@ -14,6 +14,11 @@ For building and running the application you need:
 ## Running the application locally
 
 Application can be run locally using one of below methods. Once up and running application can be accessed via [swagger api client](http://localhost:8080/swagger-ui.html).
+Below product ids can be used for initial testing as they are loaded to mongo by default on application startup.
+- 54498967
+- 76780149
+- 76593324
+
 ### Using Docker:
 
 Prerequisites:
